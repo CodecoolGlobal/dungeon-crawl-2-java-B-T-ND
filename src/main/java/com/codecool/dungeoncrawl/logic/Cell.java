@@ -57,4 +57,8 @@ public class Cell implements Drawable {
     public Item getItem() {
         return item;
     }
+
+    public void removeItem() {
+        this.item = null;
+    }
 }
