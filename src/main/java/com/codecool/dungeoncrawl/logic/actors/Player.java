@@ -18,11 +18,15 @@ public class Player extends Actor {
         this.inventory = new LinkedList<>();
     }
 
-    public void addToInventory(Item item) {
-        this.inventory.add(item);
-        if (item instanceof Key){
-            hasKey = true;
+    public void pickUpItem() {
+        if (cell.getItem() != null){
+            this.inventory.add(cell.getItem());
+            if (cell.getItem() instanceof Key){
+                hasKey = true;
+            }
+            cell.removeItem();
         }
+
     }
 
     @Override
@@ -35,15 +39,6 @@ public class Player extends Actor {
             if (cell.getType() == CellType.CLOSEDDOOR){
                 cell.setType(CellType.OPENDOOR);
             }
-
-        }
-        if (cell.getItem() != null){
-
-            // ask player if they want it
-            // if yes
-            this.addToInventory(cell.getItem());
-            cell.removeItem();
-            // else nothing
         }
     }
 
