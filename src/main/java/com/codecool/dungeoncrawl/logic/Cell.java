@@ -29,6 +29,10 @@ public class Cell implements Drawable {
         this.actor = actor;
     }
 
+    public void removeActor(){
+        this.actor = null;
+    }
+
     public Actor getActor() {
         return actor;
     }
