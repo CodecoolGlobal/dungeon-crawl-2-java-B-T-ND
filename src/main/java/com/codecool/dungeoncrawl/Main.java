@@ -3,6 +3,7 @@ package com.codecool.dungeoncrawl;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
+import com.codecool.dungeoncrawl.logic.actors.Actor;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -15,6 +16,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
     Canvas canvas = new Canvas(
@@ -26,6 +29,7 @@ public class Main extends Application {
     Label damageLabel = new Label();
 
     Label armorLabel = new Label();
+    private List<Actor> monsters;
 
     public static void main(String[] args) {
         launch(args);
@@ -65,18 +69,34 @@ public class Main extends Application {
         switch (keyEvent.getCode()) {
             case UP:
                 map.getPlayer().move(0, -1);
+                monsters = map.getMonsters();
+                for (Actor monster: monsters) {
+                    monster.move(map.getPlayer().getCell().getX(),map.getPlayer().getCell().getY());
+                }
                 refresh();
                 break;
             case DOWN:
                 map.getPlayer().move(0, 1);
+                monsters = map.getMonsters();
+                for (Actor monster: monsters) {
+                    monster.move(map.getPlayer().getCell().getX(),map.getPlayer().getCell().getY());
+                }
                 refresh();
                 break;
             case LEFT:
                 map.getPlayer().move(-1, 0);
+                monsters = map.getMonsters();
+                for (Actor monster: monsters) {
+                    monster.move(map.getPlayer().getCell().getX(),map.getPlayer().getCell().getY());
+                }
                 refresh();
                 break;
             case RIGHT:
                 map.getPlayer().move(1,0);
+                monsters = map.getMonsters();
+                for (Actor monster: monsters) {
+                    monster.move(map.getPlayer().getCell().getX(),map.getPlayer().getCell().getY());
+                }
                 refresh();
                 break;
             case E:
