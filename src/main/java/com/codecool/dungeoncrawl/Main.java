@@ -41,8 +41,6 @@ public class Main extends Application {
         ui.add(inventoryLabel, 1, 1);
         ui.add(new Label("Player prompt: "), 0, 3);
 //        ui.add(playerPromptLabel, 1, 3);
-
-
         BorderPane borderPane = new BorderPane();
 
         borderPane.setCenter(canvas);
