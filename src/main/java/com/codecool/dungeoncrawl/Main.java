@@ -39,8 +39,8 @@ public class Main extends Application {
         ui.add(healthLabel, 1, 0);
         ui.add(new Label("Inventory: "), 0, 1);
         ui.add(inventoryLabel, 1, 1);
-        ui.add(new Label("Player prompt: "), 0, 3);
-//        ui.add(playerPromptLabel, 1, 3);
+        //ui.add(new Label("Player prompt: "), 0, 3);
+        ui.add(new Label("Press E to pickup Items"), 0, 3);
         BorderPane borderPane = new BorderPane();
 
         borderPane.setCenter(canvas);
@@ -71,6 +71,10 @@ public class Main extends Application {
                 break;
             case RIGHT:
                 map.getPlayer().move(1,0);
+                refresh();
+                break;
+            case E:
+                map.getPlayer().pickUpItem();
                 refresh();
                 break;
         }
