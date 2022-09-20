@@ -8,17 +8,20 @@ public abstract class Actor implements Drawable {
     private Cell cell;
     private int health;
 
+    private int protection;
+
     private int damage;
 
     public int getDamage() {
         return damage;
     }
 
-    public Actor(Cell cell, int health, int damage) {
+    public Actor(Cell cell, int health, int damage, int protection) {
         this.cell = cell;
         this.cell.setActor(this);
         this.health = health;
         this.damage = damage;
+        this.protection = protection;
     }
 
 
@@ -46,5 +49,13 @@ public abstract class Actor implements Drawable {
 
     public void increaseDamage(int damageBonus){
         damage += damageBonus;
+    }
+
+    public int getProtection() {
+        return protection;
+    }
+
+    public void increaseProtection(int protection){
+        this.protection += protection;
     }
 }

@@ -25,6 +25,8 @@ public class Main extends Application {
     Label inventoryLabel = new Label();
     Label damageLabel = new Label();
 
+    Label armorLabel = new Label();
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -39,10 +41,12 @@ public class Main extends Application {
         ui.add(healthLabel, 1, 0);
         ui.add(new Label("Player damage: "), 0, 1);
         ui.add(damageLabel, 1, 1);
-        ui.add(new Label("Inventory: "), 0, 2);
-        ui.add(inventoryLabel, 0, 3);
+        ui.add(new Label("Player armor: "), 0, 2);
+        ui.add(armorLabel, 1, 2);
+        ui.add(new Label("Inventory: "), 0, 3);
+        ui.add(inventoryLabel, 0, 4);
         //ui.add(new Label("Player prompt: "), 0, 3);
-        ui.add(new Label("Press E to pickup Items"), 0, 4);
+        ui.add(new Label("Press E to pickup Items"), 0, 5);
         BorderPane borderPane = new BorderPane();
 
         borderPane.setCenter(canvas);
@@ -100,5 +104,6 @@ public class Main extends Application {
         healthLabel.setText("" + map.getPlayer().getHealth());
         inventoryLabel.setText("" + map.getPlayer().getInventoryToString());
         damageLabel.setText("" + map.getPlayer().getDamage());
+        armorLabel.setText("" + map.getPlayer().getProtection());
     }
 }
