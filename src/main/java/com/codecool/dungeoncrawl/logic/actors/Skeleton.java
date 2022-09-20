@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class Skeleton extends Actor {
     public Skeleton(Cell cell) {
-        super(cell, Util.getRandomHealth(5, 11), 2);
+        super(cell, Util.getRandomHealth(5, 11), 2, 0);
     }
 
     @Override
