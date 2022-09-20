@@ -14,7 +14,7 @@ public class Player extends Actor {
     private boolean hasKey = false;
     Cell cell = getCell();
     public Player(Cell cell) {
-        super(cell);
+        super(cell, 10, 5);
         this.inventory = new LinkedList<>();
     }
 
@@ -39,6 +39,17 @@ public class Player extends Actor {
             if (cell.getType() == CellType.CLOSEDDOOR){
                 cell.setType(CellType.OPENDOOR);
             }
+        } else if (nextCell.getActor() != null && nextCell.getActor() instanceof Skeleton) {
+            // if player hits a skeleton
+            Actor enemy = nextCell.getActor();
+            enemy.decreaseHealth(this.getDamage());
+            if (enemy.getHealth() > 0) {
+                // if skeleton still has health
+                this.decreaseHealth(enemy.getDamage());
+            } else {
+                nextCell.removeActor();
+            }
+
         }
     }
 
