@@ -4,6 +4,7 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.items.Key;
+import com.codecool.dungeoncrawl.logic.items.Sword;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -23,6 +24,9 @@ public class Player extends Actor {
             this.inventory.add(cell.getItem());
             if (cell.getItem() instanceof Key){
                 hasKey = true;
+            } else if (cell.getItem() instanceof Sword){
+                Sword sword = (Sword) cell.getItem();
+                this.increaseDamage(sword.getDamageBonus());
             }
             cell.removeItem();
         }
@@ -66,7 +70,7 @@ public class Player extends Actor {
     public String getInventoryToString() {
         StringBuilder sb = new StringBuilder();
         for (Item item : inventory) {
-            sb.append(item.getTileName()).append("\n");
+            sb.append("- ").append(item.getTileName()).append("\n");
         }
         return sb.toString();
     }
