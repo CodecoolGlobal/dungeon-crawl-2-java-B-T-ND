@@ -17,6 +17,8 @@ public class GameMap {
 
     private List<Actor> monsters;
 
+    private List<Actor> aliveMonsters;
+
 
 
     public GameMap(int width, int height, CellType defaultCellType) {
@@ -31,8 +33,14 @@ public class GameMap {
         }
     }
 
-    public List<Actor> getMonsters() {
-        return monsters;
+    public List<Actor> getAliveMonsters() {
+        aliveMonsters= new ArrayList<>();
+        for( Actor monster: monsters){
+            if(monster.getHealth()>0){
+                aliveMonsters.add(monster);
+            }
+        }
+        return aliveMonsters;
     }
 
     public void addMonster(Actor monster){

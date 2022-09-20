@@ -16,8 +16,7 @@ public class Spider extends Actor{
 
     @Override
     public void move(int playerX, int playerY) {
-        System.out.println(playerX);
-        System.out.println(playerY);
+        System.out.println(getHealth());
         Cell nextCell;
         if(playerX-getCell().getX()<0){
             nextCell = getCell().getNeighbor(-1, 0);
