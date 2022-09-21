@@ -40,6 +40,8 @@ public class Tiles {
         tileMap.put("guardian", new Tile(30, 6));
         tileMap.put("apple", new Tile(15, 29));
         tileMap.put("spiderWeb", new Tile(21, 23));
+        tileMap.put("tombstone", new Tile(0, 14));
+        tileMap.put("bonepile", new Tile(0, 15));
     }
 
     public static void drawTile(GraphicsContext context, Drawable d, int x, int y) {

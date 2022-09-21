@@ -75,6 +75,12 @@ public class MapLoader {
                             cell.setType(CellType.FLOOR);
                             map.setItem(new SpiderWeb(cell));
                             break;
+                        case 't':
+                            cell.setType(CellType.TOMBSTONE);
+                            break;
+                        case 'b':
+                            cell.setType(CellType.BONEPILE);
+                            break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
                     }
