@@ -6,7 +6,7 @@ public class Sword extends Item{
     private final int damageBonus;
     public Sword(Cell cell) {
         super(cell);
-        this.damageBonus = 20;
+        this.damageBonus = 2;
     }
 
     public int getDamageBonus() {
