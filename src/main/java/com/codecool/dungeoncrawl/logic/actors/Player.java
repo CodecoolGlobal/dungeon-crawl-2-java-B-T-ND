@@ -47,10 +47,11 @@ public class Player extends Actor {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
+            setCell(cell);
             if (cell.getType() == CellType.CLOSEDDOOR){
                 cell.setType(CellType.OPENDOOR);
             }
-        } else if (nextCell.getActor() != null && nextCell.getActor() instanceof Skeleton) {
+        } else if (nextCell.getActor() != null) {
             // if player hits a skeleton
             Actor enemy = nextCell.getActor();
             enemy.decreaseHealth(this.getDamage());

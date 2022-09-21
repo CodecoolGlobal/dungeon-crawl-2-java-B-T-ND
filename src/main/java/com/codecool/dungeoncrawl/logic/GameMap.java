@@ -1,7 +1,11 @@
 package com.codecool.dungeoncrawl.logic;
 
+import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameMap {
     private int width;
@@ -11,9 +15,16 @@ public class GameMap {
     private Player player;
     private Item item;
 
+    private List<Actor> monsters;
+
+    private List<Actor> aliveMonsters;
+
+
+
     public GameMap(int width, int height, CellType defaultCellType) {
         this.width = width;
         this.height = height;
+        monsters = new ArrayList<>();
         cells = new Cell[width][height];
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -22,6 +33,19 @@ public class GameMap {
         }
     }
 
+    public List<Actor> getAliveMonsters() {
+        aliveMonsters= new ArrayList<>();
+        for( Actor monster: monsters){
+            if(monster.getHealth()>0){
+                aliveMonsters.add(monster);
+            }
+        }
+        return aliveMonsters;
+    }
+
+    public void addMonster(Actor monster){
+        monsters.add(monster);
+    }
     public Cell getCell(int x, int y) {
         return cells[x][y];
     }
