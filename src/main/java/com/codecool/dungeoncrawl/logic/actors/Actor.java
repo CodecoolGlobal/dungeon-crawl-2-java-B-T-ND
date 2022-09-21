@@ -37,6 +37,9 @@ public abstract class Actor implements Drawable {
     public void decreaseHealth(int value) {
         health -= value;
     }
+    public void increaseHealth(int value) {
+        health += value;
+    }
 
     public Cell getCell() {
         return cell;

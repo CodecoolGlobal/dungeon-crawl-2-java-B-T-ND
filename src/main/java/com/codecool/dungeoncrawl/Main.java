@@ -27,6 +27,7 @@ public class Main extends Application {
     Label healthLabel = new Label();
     Label inventoryLabel = new Label();
     Label damageLabel = new Label();
+    Label infoLabel = new Label();
 
     Label armorLabel = new Label();
     private List<Actor> monsters;
@@ -50,7 +51,7 @@ public class Main extends Application {
         ui.add(new Label("Inventory: "), 0, 3);
         ui.add(inventoryLabel, 0, 4);
         //ui.add(new Label("Player prompt: "), 0, 3);
-        ui.add(new Label("Press E to pickup Items"), 0, 5);
+        ui.add(infoLabel, 0, 5);
         BorderPane borderPane = new BorderPane();
 
         borderPane.setCenter(canvas);
@@ -125,5 +126,6 @@ public class Main extends Application {
         inventoryLabel.setText("" + map.getPlayer().getInventoryToString());
         damageLabel.setText("" + map.getPlayer().getDamage());
         armorLabel.setText("" + map.getPlayer().getProtection());
+        infoLabel.setText("" + map.getPlayer().getInfo());
     }
 }
