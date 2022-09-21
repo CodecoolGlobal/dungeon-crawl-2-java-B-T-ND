@@ -10,7 +10,12 @@ import java.util.List;
 public class Player extends Actor {
     private List<Item> inventory;
 
+    private String info;
+
+    private int stuckUntil = 0;
+
     private boolean hasKey = false;
+
     private boolean hasSword = false;
     private boolean hasArmor = false;
     Cell cell = getCell();
@@ -18,6 +23,15 @@ public class Player extends Actor {
     public Player(Cell cell) {
         super(cell, 15, 5, 0);
         this.inventory = new LinkedList<>();
+        this.info = "";
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     public void pickUpItem() {
@@ -44,30 +58,37 @@ public class Player extends Actor {
 
     @Override
     public void move(int dx, int dy) {
-        Cell nextCell = cell.getNeighbor(dx, dy);
-        if (canMove(nextCell)) {
-            cell.setActor(null);
-            nextCell.setActor(this);
-            cell = nextCell;
-            setCell(cell);
-            if (cell.getType() == CellType.CLOSEDDOOR) {
-                cell.setType(CellType.OPENDOOR);
-            }
-        } else if (nextCell.getActor() != null) {
-            // if player hits a skeleton
-            Actor enemy = nextCell.getActor();
-            enemy.decreaseHealth(this.getDamage());
-            if (enemy.getHealth() > 0) {
-                if (hasArmor) {
-                    this.decreaseHealth(enemy.getDamage() - getProtection());
-                } else {
-                    // if skeleton still has health
-                    this.decreaseHealth(enemy.getDamage());
+        if (stuckUntil == 0) {
+            Cell nextCell = cell.getNeighbor(dx, dy);
+            if (canMove(nextCell)) {
+                cell.setActor(null);
+                nextCell.setActor(this);
+                cell = nextCell;
+                setCell(cell);
+                if (cell.getType() == CellType.CLOSEDDOOR) {
+                    cell.setType(CellType.OPENDOOR);
                 }
-            } else {
-                nextCell.removeActor();
+            } else if (nextCell.getActor() != null) {
+                // if player hits a skeleton
+                Actor enemy = nextCell.getActor();
+                enemy.decreaseHealth(this.getDamage());
+                if (enemy.getHealth() > 0) {
+                    if (hasArmor) {
+                        this.decreaseHealth(enemy.getDamage() - getProtection());
+                    } else {
+                        // if skeleton still has health
+                        this.decreaseHealth(enemy.getDamage());
+                    }
+                } else {
+                    nextCell.removeActor();
+                }
             }
-
+            if (cell.getItem() instanceof SpiderWeb){
+               stuckUntil = 5;
+               cell.removeItem();
+            }
+        } else {
+            stuckUntil--;
         }
     }
 

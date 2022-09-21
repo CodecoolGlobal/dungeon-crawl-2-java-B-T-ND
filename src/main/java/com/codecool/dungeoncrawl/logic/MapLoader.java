@@ -71,6 +71,10 @@ public class MapLoader {
                             cell.setType(CellType.FLOOR);
                             map.setItem(new Apple(cell, 5));
                             break;
+                        case '*':
+                            cell.setType(CellType.FLOOR);
+                            map.setItem(new SpiderWeb(cell));
+                            break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
                     }
