@@ -4,25 +4,27 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.items.*;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Player extends Actor {
-    private List<Item> inventory;
+    private static List<Item> inventory = new ArrayList<>();
 
-    private String info;
+    private static String info;
 
-    private int stuckUntil = 0;
+    private static int stuckUntil = 0;
 
-    private boolean hasKey = false;
+    private static boolean hasKey = false;
 
-    private boolean hasSword = false;
-    private boolean hasArmor = false;
+    private static boolean hasSword = false;
+    private static boolean hasArmor = false;
+
+    private static boolean hasCrown = false;
     Cell cell = getCell();
 
     public Player(Cell cell) {
         super(cell, 15, 5, 0);
-        this.inventory = new LinkedList<>();
         this.info = "";
     }
 
@@ -50,6 +52,8 @@ public class Player extends Actor {
                 this.inventory.add(cell.getItem());
             } else if (cell.getItem() instanceof Apple) {
                 this.increaseHealth(((Apple) cell.getItem()).getHealth());
+            } else if (cell.getItem() instanceof Crown) {
+                hasCrown = true;
             }
             cell.removeItem();
         }
@@ -68,7 +72,7 @@ public class Player extends Actor {
                 if (cell.getType() == CellType.CLOSEDDOOR) {
                     cell.setType(CellType.OPENDOOR);
                 }
-            } else if (nextCell.getActor() != null) {
+            } else if (nextCell.getActor() != null && !(nextCell.getActor() instanceof Friendly)) {
                 // if player hits a skeleton
                 Actor enemy = nextCell.getActor();
                 enemy.decreaseHealth(this.getDamage());
@@ -93,7 +97,7 @@ public class Player extends Actor {
     }
 
     private boolean canMove(Cell nextCell) {
-        return (nextCell.getType() == CellType.FLOOR && nextCell.getActor() == null) ||
+        return ((nextCell.getType() == CellType.FLOOR && nextCell.getActor() == null) || nextCell.getType() == CellType.EXIT) ||
                 (nextCell.getType() == CellType.CLOSEDDOOR && hasKey) ||
                 nextCell.getType() == CellType.OPENDOOR;
     }
@@ -117,5 +121,9 @@ public class Player extends Actor {
             sb.append("- ").append(item.getTileName()).append("\n");
         }
         return sb.toString();
+    }
+
+    public boolean hasCrown(){
+        return hasCrown;
     }
 }
