@@ -74,6 +74,7 @@ public class Main extends Application {
             currentMap = 3;
             map = MapLoader.loadMap(currentMap);
             refresh();
+            return;
         }
         if (map.getPlayer().getHealth() > 0 && !map.getPlayer().hasCrown()) {
             switch (keyEvent.getCode()) {
