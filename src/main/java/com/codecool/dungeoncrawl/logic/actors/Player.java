@@ -40,20 +40,25 @@ public class Player extends Actor {
         if (cell.getItem() != null) {
             if (cell.getItem() instanceof Key) {
                 hasKey = true;
+                playSound("inventory/metal-small1.wav");
                 this.inventory.add(cell.getItem());
             } else if (cell.getItem() instanceof Sword) {
                 hasSword = true;
+                playSound("inventory/metal-small3.wav");
                 Sword sword = (Sword) cell.getItem();
                 this.increaseDamage(sword.getDamageBonus());
                 this.inventory.add(cell.getItem());
             } else if (cell.getItem() instanceof Armor) {
                 hasArmor = true;
+                playSound("inventory/chainmail2.wav");
                 this.increaseProtection(((Armor) cell.getItem()).getDamageReduction());
                 this.inventory.add(cell.getItem());
             } else if (cell.getItem() instanceof Apple) {
+                playSound("misc/apple.wav");
                 this.increaseHealth(((Apple) cell.getItem()).getHealth());
             } else if (cell.getItem() instanceof Crown) {
                 hasCrown = true;
+                playSound("misc/victory.wav");
             }
             cell.removeItem();
         }
@@ -65,16 +70,23 @@ public class Player extends Actor {
         if (stuckUntil == 0) {
             Cell nextCell = cell.getNeighbor(dx, dy);
             if (canMove(nextCell)) {
+                playSound("misc/step.wav");
                 cell.setActor(null);
                 nextCell.setActor(this);
                 cell = nextCell;
                 setCell(cell);
                 if (cell.getType() == CellType.CLOSEDDOOR) {
                     cell.setType(CellType.OPENDOOR);
+                    playSound("world/door.wav");
                 }
             } else if (nextCell.getActor() != null && !(nextCell.getActor() instanceof Friendly)) {
                 // if player hits a skeleton
                 Actor enemy = nextCell.getActor();
+                if (hasSword){
+                    playSound("battle/sword-unsheathe4.wav");
+                }else {
+                    playSound("battle/swing2.wav");
+                }
                 enemy.decreaseHealth(this.getDamage());
                 if (enemy.getHealth() > 0) {
                     if (hasArmor) {

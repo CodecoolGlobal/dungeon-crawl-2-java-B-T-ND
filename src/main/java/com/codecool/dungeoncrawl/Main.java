@@ -18,6 +18,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.util.List;
 
 public class Main extends Application {
@@ -114,6 +117,10 @@ public class Main extends Application {
                     map.getPlayer().pickUpItem();
                     refresh();
                     break;
+                case R:
+                    map = MapLoader.loadMap(currentMap);
+                    refresh();
+                    break;
             }
             if (map.getPlayer().getCell().getType() == CellType.EXIT) {
                 currentMap++;
@@ -149,4 +156,5 @@ public class Main extends Application {
         armorLabel.setText("" + map.getPlayer().getProtection());
         infoLabel.setText("" + map.getPlayer().getInfo());
     }
+
 }
