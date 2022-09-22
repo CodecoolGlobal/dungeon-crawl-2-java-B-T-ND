@@ -75,11 +75,14 @@ public class Tiles {
         tileMap3.put("playerWithSword", new Tile(27,0));
         tileMap3.put("playerWithArmor", new Tile(30,0));
         tileMap3.put("playerWithArmorAndSword", new Tile(31,0));
-        tileMap3.put("sword", new Tile(30,31));
-        tileMap3.put("armor", new Tile(26,31));
-        tileMap3.put("key", new Tile(20,31));
-        tileMap3.put("apple", new Tile(28, 31));
-        tileMap3.put("tombstone", new Tile(19, 31));
+        tileMap3.put("Y", new Tile(30,31));
+        tileMap3.put("O", new Tile(20,31));
+        tileMap3.put("U", new Tile(26,31));
+        tileMap3.put("W", new Tile(28, 31));
+        tileMap3.put("N", new Tile(19, 31));
+        tileMap3.put("L", new Tile(30, 30));
+        tileMap3.put("S", new Tile(24, 31));
+        tileMap3.put("T", new Tile(25, 31));
     }
 
     public static void drawTile(GraphicsContext context, Drawable d, int x, int y, int level) {
@@ -88,6 +91,8 @@ public class Tiles {
             tile = tileMap.get(d.getTileName());
         } else if (level == 2) {
             tile = tileMap2.get(d.getTileName());
+        } else  if (level == 3){
+            tile = tileMap3.get(d.getTileName());
         } else {
             tile = tileMap3.get(d.getTileName());
         }
