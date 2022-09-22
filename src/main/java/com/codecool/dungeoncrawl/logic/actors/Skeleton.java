@@ -15,6 +15,10 @@ public class Skeleton extends Actor {
 
     @Override
     public void move(int dx, int dy) {
+        int randomNumber = Util.getRandomHealth(0,101);
+        if(randomNumber <= 1){
+            playSound("misc/skeleton.wav");
+        }
         randomDirection = Util.getRandomDirection();
         cell = getCell();
         Cell nextCell = cell.getNeighbor(randomDirection[0], randomDirection[1]);
