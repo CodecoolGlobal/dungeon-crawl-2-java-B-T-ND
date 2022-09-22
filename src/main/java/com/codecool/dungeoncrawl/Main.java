@@ -70,49 +70,55 @@ public class Main extends Application {
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
-        switch (keyEvent.getCode()) {
-            case UP:
-                map.getPlayer().move(0, -1);
-                monsters = map.getAliveMonsters();
-                for (Actor monster: monsters) {
-                    monster.move(map.getPlayer().getCell().getX(),map.getPlayer().getCell().getY());
-                }
-                refresh();
-                break;
-            case DOWN:
-                map.getPlayer().move(0, 1);
-                monsters = map.getAliveMonsters();
-                for (Actor monster: monsters) {
-                    monster.move(map.getPlayer().getCell().getX(),map.getPlayer().getCell().getY());
-                }
-                refresh();
-                break;
-            case LEFT:
-                map.getPlayer().move(-1, 0);
-                monsters = map.getAliveMonsters();
-                for (Actor monster: monsters) {
-                    monster.move(map.getPlayer().getCell().getX(),map.getPlayer().getCell().getY());
-                }
-                refresh();
-                break;
-            case RIGHT:
-                map.getPlayer().move(1,0);
-                monsters = map.getAliveMonsters();
-                for (Actor monster: monsters) {
-                    monster.move(map.getPlayer().getCell().getX(),map.getPlayer().getCell().getY());
-                }
-                refresh();
-                break;
-            case E:
-                map.getPlayer().pickUpItem();
-                refresh();
-                break;
-        }
-        if (map.getPlayer().getCell().getType() == CellType.EXIT){
+        if (!map.getPlayer().hasCrown()) {
+            switch (keyEvent.getCode()) {
+                case UP:
+                    map.getPlayer().move(0, -1);
+                    monsters = map.getAliveMonsters();
+                    for (Actor monster : monsters) {
+                        monster.move(map.getPlayer().getCell().getX(), map.getPlayer().getCell().getY());
+                    }
+                    refresh();
+                    break;
+                case DOWN:
+                    map.getPlayer().move(0, 1);
+                    monsters = map.getAliveMonsters();
+                    for (Actor monster : monsters) {
+                        monster.move(map.getPlayer().getCell().getX(), map.getPlayer().getCell().getY());
+                    }
+                    refresh();
+                    break;
+                case LEFT:
+                    map.getPlayer().move(-1, 0);
+                    monsters = map.getAliveMonsters();
+                    for (Actor monster : monsters) {
+                        monster.move(map.getPlayer().getCell().getX(), map.getPlayer().getCell().getY());
+                    }
+                    refresh();
+                    break;
+                case RIGHT:
+                    map.getPlayer().move(1, 0);
+                    monsters = map.getAliveMonsters();
+                    for (Actor monster : monsters) {
+                        monster.move(map.getPlayer().getCell().getX(), map.getPlayer().getCell().getY());
+                    }
+                    refresh();
+                    break;
+                case E:
+                    map.getPlayer().pickUpItem();
+                    refresh();
+                    break;
+            }
+            if (map.getPlayer().getCell().getType() == CellType.EXIT) {
+                currentMap++;
+
+                map = MapLoader.loadMap(currentMap);
+
+            }
+        } else {
             currentMap++;
-
             map = MapLoader.loadMap(currentMap);
-
+            refresh();
         }
     }
 

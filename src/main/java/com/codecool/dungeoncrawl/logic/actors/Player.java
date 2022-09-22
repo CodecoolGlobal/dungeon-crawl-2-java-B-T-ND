@@ -19,6 +19,8 @@ public class Player extends Actor {
 
     private static boolean hasSword = false;
     private static boolean hasArmor = false;
+
+    private static boolean hasCrown = false;
     Cell cell = getCell();
 
     public Player(Cell cell) {
@@ -50,6 +52,8 @@ public class Player extends Actor {
                 this.inventory.add(cell.getItem());
             } else if (cell.getItem() instanceof Apple) {
                 this.increaseHealth(((Apple) cell.getItem()).getHealth());
+            } else if (cell.getItem() instanceof Crown) {
+                hasCrown = true;
             }
             cell.removeItem();
         }
@@ -117,5 +121,9 @@ public class Player extends Actor {
             sb.append("- ").append(item.getTileName()).append("\n");
         }
         return sb.toString();
+    }
+
+    public boolean hasCrown(){
+        return hasCrown;
     }
 }

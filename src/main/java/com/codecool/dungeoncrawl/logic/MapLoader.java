@@ -13,8 +13,10 @@ public class MapLoader {
         InputStream is;
         if (level == 1) {
             is = MapLoader.class.getResourceAsStream("/map.txt");
-        } else {
+        } else if(level == 2){
             is = MapLoader.class.getResourceAsStream("/map2.txt");
+        } else {
+            is = MapLoader.class.getResourceAsStream("/map3.txt");
         }
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
@@ -90,6 +92,17 @@ public class MapLoader {
                         case 'c':
                             cell.setType(CellType.FLOOR);
                             map.addMonster(new Friendly(cell,"cat"));
+                            break;
+                        case 'o':
+                            cell.setType(CellType.FLOOR);
+                            map.addMonster(new Friendly(cell,"dog"));
+                            break;
+                        case 'i':
+                            cell.setType(CellType.BUSH);
+                            break;
+                        case '%':
+                            cell.setType(CellType.FLOOR);
+                            map.setItem(new Crown(cell));
                             break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
