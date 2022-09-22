@@ -18,6 +18,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import java.util.List;
 
 public class Main extends Application {
@@ -114,6 +118,10 @@ public class Main extends Application {
                     map.getPlayer().pickUpItem();
                     refresh();
                     break;
+                case R:
+                    map = MapLoader.loadMap(currentMap);
+                    refresh();
+                    break;
             }
             if (map.getPlayer().getCell().getType() == CellType.EXIT) {
                 currentMap++;
@@ -123,6 +131,7 @@ public class Main extends Application {
             }
         } else {
             currentMap = 4;
+            playSound("misc/lost.wav");
             map = MapLoader.loadMap(currentMap);
             refresh();
         }
@@ -148,5 +157,24 @@ public class Main extends Application {
         damageLabel.setText("" + map.getPlayer().getDamage());
         armorLabel.setText("" + map.getPlayer().getProtection());
         infoLabel.setText("" + map.getPlayer().getInfo());
+    }
+    public static synchronized void playSound(final String url) {
+        new Thread(new Runnable() {
+            // The wrapper thread is unnecessary, unless it blocks on the
+            // Clip finishing; see comments.
+            public void run() {
+                try {
+                    Clip clip = AudioSystem.getClip();
+                    AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+                            Main.class.getResourceAsStream("/Sound/" + url));
+                    clip.open(inputStream);
+                    FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                    gainControl.setValue(-5.0f);
+                    clip.start();
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
+                }
+            }
+        }).start();
     }
 }

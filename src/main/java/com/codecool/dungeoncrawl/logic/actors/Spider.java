@@ -18,6 +18,10 @@ public class Spider extends Actor{
     @Override
     public void move(int playerX, int playerY) {
         Cell nextCell;
+        int randomNumber = Util.getRandomHealth(0,101);
+        if(randomNumber <= 1){
+            playSound("misc/spider.wav");
+        }
         if(playerX-getCell().getX()<0 && playerX-getCell().getX()>-4 && playerY-getCell().getY()>-4 && playerY-getCell().getY()<4){
             nextCell = getCell().getNeighbor(-1, 0);
             if (nextCell.getType()== CellType.FLOOR && nextCell.getActor()==null){
