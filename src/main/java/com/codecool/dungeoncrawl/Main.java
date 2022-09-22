@@ -70,7 +70,12 @@ public class Main extends Application {
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
-        if (!map.getPlayer().hasCrown()) {
+        if (map.getPlayer().hasCrown()){
+            currentMap = 3;
+            map = MapLoader.loadMap(currentMap);
+            refresh();
+        }
+        if (map.getPlayer().getHealth() > 0 && !map.getPlayer().hasCrown()) {
             switch (keyEvent.getCode()) {
                 case UP:
                     map.getPlayer().move(0, -1);
@@ -116,7 +121,7 @@ public class Main extends Application {
 
             }
         } else {
-            currentMap++;
+            currentMap = 4;
             map = MapLoader.loadMap(currentMap);
             refresh();
         }
