@@ -26,15 +26,15 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+import java.sql.SQLException;
 import java.util.List;
+
+import static javafx.application.Platform.exit;
 
 public class Main extends Application {
     int currentMap = 1;
     GameMap map = MapLoader.loadMap(currentMap);
-import java.sql.SQLException;
 
-public class Main extends Application {
-    GameMap map = MapLoader.loadMap();
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
@@ -54,7 +54,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        setupDbManager();
+        // TODO setupDbManager();
         GridPane ui = new GridPane();
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
@@ -96,29 +96,7 @@ public class Main extends Application {
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
-        switch (keyEvent.getCode()) {
-            case UP:
-                map.getPlayer().move(0, -1);
-                refresh();
-                break;
-            case DOWN:
-                map.getPlayer().move(0, 1);
-                refresh();
-                break;
-            case LEFT:
-                map.getPlayer().move(-1, 0);
-                refresh();
-                break;
-            case RIGHT:
-                map.getPlayer().move(1, 0);
-                refresh();
-                break;
-            case S:
-                Player player = map.getPlayer();
-                dbManager.savePlayer(player);
-                break;
-    private void onKeyPressed(KeyEvent keyEvent) {
-        if (map.getPlayer().hasCrown()){
+        if (map.getPlayer().hasCrown()) {
             currentMap = 3;
             map = MapLoader.loadMap(currentMap);
             refresh();
@@ -166,6 +144,10 @@ public class Main extends Application {
                     map = MapLoader.loadMap(currentMap);
                     refresh();
                     break;
+                case S:
+                    Player player = map.getPlayer();
+                    dbManager.savePlayer(player);
+                    break;
             }
             if (map.getPlayer().getCell().getType() == CellType.EXIT) {
                 currentMap++;
@@ -188,9 +170,6 @@ public class Main extends Application {
             for (int y = 0; y < map.getHeight(); y++) {
                 Cell cell = map.getCell(x, y);
                 if (cell.getActor() != null) {
-                    Tiles.drawTile(context, cell.getActor(), x, y);
-                } else {
-                    Tiles.drawTile(context, cell, x, y);
                     Tiles.drawTile(context, cell.getActor(), x, y, currentMap);
                 } else if (cell.getItem() != null) {
                     Tiles.drawTile(context, cell.getItem(), x, y, currentMap);
@@ -223,6 +202,7 @@ public class Main extends Application {
         armorLabel.setText("" + map.getPlayer().getProtection());
         infoLabel.setText("" + map.getPlayer().getInfo());
     }
+
     public static synchronized void playSound(final String url) {
         new Thread(new Runnable() {
             // The wrapper thread is unnecessary, unless it blocks on the
