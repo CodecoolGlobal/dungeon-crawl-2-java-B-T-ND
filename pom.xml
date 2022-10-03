@@ -21,8 +21,13 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
-      <version>5.9.0</version>
-      <scope>test</scope>
+        <version>5.9.0</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>42.2.5</version>
     </dependency>
   </dependencies>
 
