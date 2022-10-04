@@ -65,4 +65,13 @@ public class Cell implements Drawable {
     public void removeItem() {
         this.item = null;
     }
+
+    @Override
+    public String toString() {
+        return "Cell{" +
+                "gameMap=" + gameMap +
+                ", x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

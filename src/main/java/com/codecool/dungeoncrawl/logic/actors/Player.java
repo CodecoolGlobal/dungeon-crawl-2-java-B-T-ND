@@ -68,7 +68,7 @@ public class Player extends Actor {
     @Override
     public void move(int dx, int dy) {
         if (stuckUntil == 0) {
-            Cell nextCell = cell.getNeighbor(dx, dy);
+            Cell nextCell = getCell().getNeighbor(dx, dy);
             if (canMove(nextCell)) {
                 playSound("misc/step.wav");
                 cell.setActor(null);
