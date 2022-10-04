@@ -96,72 +96,68 @@ public class Main extends Application {
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
-        if (map.getPlayer().hasCrown()) {
-            currentMap = 3;
-            map = MapLoader.loadMap(currentMap, map.getPlayer());
-            refresh();
-            return;
-        }
-        if (map.getPlayer().getHealth() > 0 && !map.getPlayer().hasCrown()) {
-            switch (keyEvent.getCode()) {
-                case UP:
-                    map.getPlayer().move(0, -1);
-                    monsters = map.getAliveMonsters();
-                    for (Actor monster : monsters) {
-                        monster.move(map.getPlayer().getCell().getX(), map.getPlayer().getCell().getY());
-                    }
-                    refresh();
-                    break;
-                case DOWN:
-                    map.getPlayer().move(0, 1);
-                    monsters = map.getAliveMonsters();
-                    for (Actor monster : monsters) {
-                        monster.move(map.getPlayer().getCell().getX(), map.getPlayer().getCell().getY());
-                    }
-                    refresh();
-                    break;
-                case LEFT:
-                    map.getPlayer().move(-1, 0);
-                    monsters = map.getAliveMonsters();
-                    for (Actor monster : monsters) {
-                        monster.move(map.getPlayer().getCell().getX(), map.getPlayer().getCell().getY());
-                    }
-                    refresh();
-                    break;
-                case RIGHT:
-                    map.getPlayer().move(1, 0);
-                    monsters = map.getAliveMonsters();
-                    for (Actor monster : monsters) {
-                        monster.move(map.getPlayer().getCell().getX(), map.getPlayer().getCell().getY());
-                    }
-                    refresh();
-                    break;
-                case E:
-                    map.getPlayer().pickUpItem();
-                    refresh();
-                    break;
-                case R:
-                    map = MapLoader.loadMap(currentMap, map.getPlayer());
-                    refresh();
-                    break;
-                case S:
-                    Player player = map.getPlayer();
-                    dbManager.savePlayer(player);
-                    break;
-            }
-            if (map.getPlayer().getCell().getType() == CellType.EXIT) {
-                currentMap++;
-
+        switch (keyEvent.getCode()) {
+            case UP:
+                map.getPlayer().move(0, -1);
+                monsters = map.getAliveMonsters();
+                for (Actor monster : monsters) {
+                    monster.move(map.getPlayer().getCell().getX(), map.getPlayer().getCell().getY());
+                }
+                refresh();
+                break;
+            case DOWN:
+                map.getPlayer().move(0, 1);
+                monsters = map.getAliveMonsters();
+                for (Actor monster : monsters) {
+                    monster.move(map.getPlayer().getCell().getX(), map.getPlayer().getCell().getY());
+                }
+                refresh();
+                break;
+            case LEFT:
+                map.getPlayer().move(-1, 0);
+                monsters = map.getAliveMonsters();
+                for (Actor monster : monsters) {
+                    monster.move(map.getPlayer().getCell().getX(), map.getPlayer().getCell().getY());
+                }
+                refresh();
+                break;
+            case RIGHT:
+                map.getPlayer().move(1, 0);
+                monsters = map.getAliveMonsters();
+                for (Actor monster : monsters) {
+                    monster.move(map.getPlayer().getCell().getX(), map.getPlayer().getCell().getY());
+                }
+                refresh();
+                break;
+            case E:
+                map.getPlayer().pickUpItem();
+                refresh();
+                break;
+            case R:
                 map = MapLoader.loadMap(currentMap, map.getPlayer());
                 refresh();
-
-            }
-        } else {
+                break;
+            case S:
+                Player player = map.getPlayer();
+                dbManager.savePlayer(player);
+                break;
+        }
+        if (map.getPlayer().getCell().getType() == CellType.EXIT) {
+            // is player on exit-field
+            currentMap++;
+            map = MapLoader.loadMap(currentMap, map.getPlayer());
+        }
+        if (map.getPlayer().hasCrown()) {
+            // win condition
+            currentMap = 3;
+            map = MapLoader.loadMap(currentMap, map.getPlayer());
+        } else if (map.getPlayer().getHealth() <= 0) {
+            // lose condition
             currentMap = 4;
             playSound("misc/lost.wav");
             map = MapLoader.loadMap(currentMap, map.getPlayer());
-            refresh();
         }
+        refresh();
     }
 
     private void refresh() {
