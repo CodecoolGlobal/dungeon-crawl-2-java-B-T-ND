@@ -54,6 +54,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         // TODO setupDbManager();
         GridPane ui = new GridPane();
+        dbManager = new GameDatabaseManager();
+        dbManager.setup();
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
