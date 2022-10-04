@@ -1,5 +1,7 @@
 package com.codecool.dungeoncrawl;
 
+import com.codecool.dungeoncrawl.dao.PlayerDao;
+import com.codecool.dungeoncrawl.dao.PlayerDaoJdbc;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.GameMap;
@@ -12,20 +14,27 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+import javax.swing.*;
+import java.beans.EventHandler;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -138,8 +147,8 @@ public class Main extends Application {
                 refresh();
                 break;
             case S:
-                Player player = map.getPlayer();
-                dbManager.savePlayer(player);
+                Popup pop = new Popup();
+                pop.show(createWindowForPopup());
                 break;
         }
     }
@@ -225,5 +234,30 @@ public class Main extends Application {
                 }
             }
         }).start();
+    }
+
+    public Window createWindowForPopup(){
+        Stage newStage = new Stage();
+        VBox comp = new VBox();
+        TextField nameField = new TextField("Name");
+        comp.getChildren().add(nameField);
+        Button cancel = new Button("Cancel");
+        cancel.setOnAction((e) -> newStage.close());
+        cancel.setCancelButton(true);
+        cancel.setDefaultButton(true);
+        Button save = new Button("Save");
+        save.setOnAction((e) -> {
+            map.getPlayer().setName(nameField.getText());
+            dbManager.savePlayer(map.getPlayer());
+            newStage.close();
+
+        });
+        comp.getChildren().add(cancel);
+        comp.getChildren().add(save);
+
+        Scene stageScene = new Scene(comp, 300, 300);
+        newStage.setScene(stageScene);
+        newStage.show();
+        return newStage;
     }
 }
