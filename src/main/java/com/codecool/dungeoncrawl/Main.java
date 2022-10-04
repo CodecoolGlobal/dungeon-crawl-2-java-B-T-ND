@@ -29,8 +29,6 @@ import javax.sound.sampled.FloatControl;
 import java.sql.SQLException;
 import java.util.List;
 
-import static javafx.application.Platform.exit;
-
 public class Main extends Application {
     int currentMap = 1;
     GameMap map = MapLoader.loadMap(currentMap, null);
@@ -178,7 +176,15 @@ public class Main extends Application {
                 }
             }
         }
+        refreshDisplay();
+    }
+
+    private void refreshDisplay() {
         healthLabel.setText("" + map.getPlayer().getHealth());
+        inventoryLabel.setText("" + map.getPlayer().getInventoryToString());
+        damageLabel.setText("" + map.getPlayer().getDamage());
+        armorLabel.setText("" + map.getPlayer().getProtection());
+        infoLabel.setText("" + map.getPlayer().getInfo());
     }
 
     private void setupDbManager() {
@@ -197,10 +203,6 @@ public class Main extends Application {
             System.exit(1);
         }
         System.exit(0);
-        inventoryLabel.setText("" + map.getPlayer().getInventoryToString());
-        damageLabel.setText("" + map.getPlayer().getDamage());
-        armorLabel.setText("" + map.getPlayer().getProtection());
-        infoLabel.setText("" + map.getPlayer().getInfo());
     }
 
     public static synchronized void playSound(final String url) {
