@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Player extends Actor {
-    private static List<Item> inventory = new ArrayList<>();
+    private List<String> inventory = new ArrayList<>();
 
     private static String info;
 
@@ -33,6 +33,10 @@ public class Player extends Actor {
         return info;
     }
 
+    public List<String> getInventory() {
+        return inventory;
+    }
+
     public void setInfo(String info) {
         this.info = info;
     }
@@ -42,18 +46,18 @@ public class Player extends Actor {
             if (cell.getItem() instanceof Key) {
                 hasKey = true;
                 playSound("inventory/metal-small1.wav");
-                this.inventory.add(cell.getItem());
+                this.inventory.add(cell.getItem().getTileName());
             } else if (cell.getItem() instanceof Sword) {
                 hasSword = true;
                 playSound("inventory/metal-small3.wav");
                 Sword sword = (Sword) cell.getItem();
                 this.increaseDamage(sword.getDamageBonus());
-                this.inventory.add(cell.getItem());
+                this.inventory.add(cell.getItem().getTileName());
             } else if (cell.getItem() instanceof Armor) {
                 hasArmor = true;
                 playSound("inventory/chainmail2.wav");
                 this.increaseProtection(((Armor) cell.getItem()).getDamageReduction());
-                this.inventory.add(cell.getItem());
+                this.inventory.add(cell.getItem().getTileName());
             } else if (cell.getItem() instanceof Apple) {
                 playSound("misc/apple.wav");
                 this.increaseHealth(((Apple) cell.getItem()).getHealth());
@@ -130,8 +134,8 @@ public class Player extends Actor {
 
     public String getInventoryToString() {
         StringBuilder sb = new StringBuilder();
-        for (Item item : inventory) {
-            sb.append("- ").append(item.getTileName()).append("\n");
+        for (String item : inventory) {
+            sb.append("- ").append(item).append("\n");
         }
         return sb.toString();
     }
