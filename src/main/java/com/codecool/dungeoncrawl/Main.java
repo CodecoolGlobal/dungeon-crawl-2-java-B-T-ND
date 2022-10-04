@@ -142,6 +142,9 @@ public class Main extends Application {
                 dbManager.savePlayer(player);
                 break;
         }
+    }
+
+    private void checkNextLevel() {
         if (map.getPlayer().getCell().getType() == CellType.EXIT) {
             // is player on exit-field
             currentMap++;
@@ -157,10 +160,10 @@ public class Main extends Application {
             playSound("misc/lost.wav");
             map = MapLoader.loadMap(currentMap, map.getPlayer());
         }
-        refresh();
     }
 
     private void refresh() {
+        checkNextLevel();
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         for (int x = 0; x < map.getWidth(); x++) {
