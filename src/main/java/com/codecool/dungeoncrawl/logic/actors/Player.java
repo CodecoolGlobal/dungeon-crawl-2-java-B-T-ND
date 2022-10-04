@@ -18,6 +18,7 @@ public class Player extends Actor {
     private static boolean hasKey = false;
 
     private static boolean hasSword = false;
+
     private static boolean hasArmor = false;
 
     private static boolean hasCrown = false;
