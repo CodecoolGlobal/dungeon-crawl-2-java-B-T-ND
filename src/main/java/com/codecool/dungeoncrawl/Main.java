@@ -33,7 +33,7 @@ import static javafx.application.Platform.exit;
 
 public class Main extends Application {
     int currentMap = 1;
-    GameMap map = MapLoader.loadMap(currentMap);
+    GameMap map = MapLoader.loadMap(currentMap, null);
 
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
@@ -98,7 +98,7 @@ public class Main extends Application {
     private void onKeyPressed(KeyEvent keyEvent) {
         if (map.getPlayer().hasCrown()) {
             currentMap = 3;
-            map = MapLoader.loadMap(currentMap);
+            map = MapLoader.loadMap(currentMap, map.getPlayer());
             refresh();
             return;
         }
@@ -141,7 +141,7 @@ public class Main extends Application {
                     refresh();
                     break;
                 case R:
-                    map = MapLoader.loadMap(currentMap);
+                    map = MapLoader.loadMap(currentMap, map.getPlayer());
                     refresh();
                     break;
                 case S:
@@ -152,13 +152,14 @@ public class Main extends Application {
             if (map.getPlayer().getCell().getType() == CellType.EXIT) {
                 currentMap++;
 
-                map = MapLoader.loadMap(currentMap);
+                map = MapLoader.loadMap(currentMap, map.getPlayer());
+                refresh();
 
             }
         } else {
             currentMap = 4;
             playSound("misc/lost.wav");
-            map = MapLoader.loadMap(currentMap);
+            map = MapLoader.loadMap(currentMap, map.getPlayer());
             refresh();
         }
     }
