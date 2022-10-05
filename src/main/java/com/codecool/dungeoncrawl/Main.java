@@ -246,6 +246,7 @@ public class Main extends Application {
         cancel.setDefaultButton(true);
         Button save = new Button("Save");
         save.setOnAction((e) -> {
+            map.getPlayer().setName(nameField.getText());
             if(dbManager.doesExist(nameField.getText())){
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Overwrite existing save");
@@ -254,11 +255,10 @@ public class Main extends Application {
                 if (btnType == ButtonType.CANCEL) newStage.close();
                 else{
                     System.out.println(map.getPlayer().toString());
-                    //TODO: dbManager.updatePlayer(map.getPlayer());
+                    dbManager.updatePlayer(map.getPlayer());
                     newStage.close();
                 }
             } else{
-                map.getPlayer().setName(nameField.getText());
                 dbManager.savePlayer(map.getPlayer());
                 newStage.close();
             }

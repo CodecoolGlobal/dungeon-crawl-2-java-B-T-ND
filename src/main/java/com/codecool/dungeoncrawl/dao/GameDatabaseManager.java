@@ -19,6 +19,12 @@ public class GameDatabaseManager {
         PlayerModel model = new PlayerModel(player);
         playerDao.add(model);
     }
+    public void updatePlayer( Player player){
+        PlayerModel model = new PlayerModel(player);
+        playerDao.update(model);
+    }
+
+
 
     public boolean doesExist(String name){
         return playerDao.doesExist(name);
