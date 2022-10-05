@@ -247,10 +247,13 @@ public class Main extends Application {
         cancel.setDefaultButton(true);
         Button save = new Button("Save");
         save.setOnAction((e) -> {
-            map.getPlayer().setName(nameField.getText());
-            dbManager.savePlayer(map.getPlayer());
-            newStage.close();
-
+            if(dbManager.doesExist(nameField.getText())){
+                System.out.println("This name already exists");
+            } else{
+                map.getPlayer().setName(nameField.getText());
+                dbManager.savePlayer(map.getPlayer());
+                newStage.close();
+            }
         });
         comp.getChildren().add(cancel);
         comp.getChildren().add(save);

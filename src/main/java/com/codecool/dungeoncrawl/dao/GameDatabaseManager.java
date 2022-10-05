@@ -20,6 +20,10 @@ public class GameDatabaseManager {
         playerDao.add(model);
     }
 
+    public boolean doesExist(String name){
+        return playerDao.doesExist(name);
+    }
+
     private DataSource connect() throws SQLException {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
         String dbName = "dungeoncrawl";
