@@ -1,7 +1,9 @@
 package com.codecool.dungeoncrawl.logic;
 
-import com.codecool.dungeoncrawl.logic.actors.Actor;
-import com.codecool.dungeoncrawl.logic.items.Item;
+import com.codecool.dungeoncrawl.logic.actors.*;
+import com.codecool.dungeoncrawl.logic.items.*;
+
+import java.util.Objects;
 
 public class Cell implements Drawable {
     private Item item;
@@ -29,7 +31,7 @@ public class Cell implements Drawable {
         this.actor = actor;
     }
 
-    public void removeActor(){
+    public void removeActor() {
         this.actor = null;
     }
 
@@ -73,5 +75,62 @@ public class Cell implements Drawable {
                 ", x=" + x +
                 ", y=" + y +
                 '}';
+    }
+
+    public char getCharacterRepresentation() {
+        switch (getType()) {
+            case EMPTY:
+                return ' ';
+            case WALL:
+                return '#';
+            case OPENDOOR:
+            case CLOSEDDOOR:
+                return 'd';
+            case TOMBSTONE:
+                return 't';
+            case BONEPILE:
+                return 'b';
+            case EXIT:
+                return 'e';
+            case BUSH:
+                return 'i';
+            case FLOOR:
+                Item itemOnCell = getItem();
+                Actor actorOnCell = getActor();
+                if (itemOnCell != null) {
+                    if (itemOnCell instanceof Apple) {
+                        return 'h';
+                    } else if (itemOnCell instanceof Armor){
+                        return 'a';
+                    } else if (itemOnCell instanceof Crown){
+                        return '%';
+                    } else if (itemOnCell instanceof Key) {
+                        return 'k';
+                    }else if (itemOnCell instanceof SpiderWeb){
+                        return '*';
+                    } else if (itemOnCell instanceof Sword) {
+                        return 'w';
+                    }
+                } else if (actorOnCell != null) {
+                    if (actorOnCell instanceof Guardian) {
+                        return 'g';
+                    } else if (actorOnCell instanceof Friendly) {
+                        if (Objects.equals(actorOnCell.getTileName(), "cat")){
+                            return 'c';
+                        } else if (Objects.equals(actorOnCell.getTileName(), "dog")) {
+                            return 'o';
+                        }
+                    } else if (actorOnCell instanceof Player) {
+                        return '@';
+                    } else if (actorOnCell instanceof Skeleton) {
+                        return 's';
+                    } else if (actorOnCell instanceof Spider) {
+                        return 'p';
+                    }
+                } else {
+                    return '.';
+                }
+        }
+        return ' ';
     }
 }
