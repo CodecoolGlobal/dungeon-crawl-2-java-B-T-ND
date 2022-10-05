@@ -79,7 +79,9 @@ public class GameMap {
                 Cell currentCell = getCell(x, y);
                 stringBuilder.append(currentCell.getCharacterRepresentation());
             }
+            stringBuilder.append("\n");
         }
+        return stringBuilder.toString();
     }
 
 }
