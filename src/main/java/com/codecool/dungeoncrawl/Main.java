@@ -260,6 +260,7 @@ public class Main extends Application {
                 }
             } else{
                 dbManager.savePlayer(map.getPlayer());
+                dbManager.saveMap(currentMap, map, map.getPlayer());
                 newStage.close();
             }
         });
