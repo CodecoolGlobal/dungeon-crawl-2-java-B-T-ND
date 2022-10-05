@@ -256,6 +256,7 @@ public class Main extends Application {
                 else{
                     System.out.println(map.getPlayer().toString());
                     dbManager.updatePlayer(map.getPlayer());
+                    dbManager.updateMap(currentMap,map,map.getPlayer());
                     newStage.close();
                 }
             } else{

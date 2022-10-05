@@ -37,6 +37,12 @@ public class GameDatabaseManager {
         gameStateDao.add(gameModel);
     }
 
+    public void updateMap(int currentMap, GameMap map, Player player){
+        PlayerModel playerModel = new PlayerModel(player);
+        GameState gameModel = new GameState(currentMap, map.toString(), playerModel);
+        gameStateDao.update(gameModel);
+    }
+
 
 
     public boolean doesExist(String name){

@@ -9,8 +9,8 @@ CREATE TABLE public.game_state (
 
 DROP TABLE IF EXISTS public.player;
 CREATE TABLE public.player (
-    id serial NOT NULL PRIMARY KEY,
-    player_name text,
+    id serial NOT NULL ,
+    player_name text primary key ,
     hp integer NOT NULL,
     x integer NOT NULL,
     y integer NOT NULL,
@@ -18,4 +18,4 @@ CREATE TABLE public.player (
 );
 
 ALTER TABLE ONLY public.game_state
-    ADD CONSTRAINT fk_player_id FOREIGN KEY (player_id) REFERENCES public.player(id);
+    ADD CONSTRAINT fk_player_name FOREIGN KEY (player_name) REFERENCES public.player(player_name);
