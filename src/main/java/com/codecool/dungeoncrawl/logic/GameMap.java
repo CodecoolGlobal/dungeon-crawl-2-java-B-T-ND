@@ -74,8 +74,9 @@ public class GameMap {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
+        stringBuilder.append(width).append(" ").append(height).append("\n");
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
                 Cell currentCell = getCell(x, y);
                 stringBuilder.append(currentCell.getCharacterRepresentation());
             }
