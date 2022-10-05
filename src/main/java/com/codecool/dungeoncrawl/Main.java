@@ -14,9 +14,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
@@ -37,6 +35,7 @@ import javax.swing.*;
 import java.beans.EventHandler;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 public class Main extends Application {
     int currentMap = 1;
@@ -248,7 +247,16 @@ public class Main extends Application {
         Button save = new Button("Save");
         save.setOnAction((e) -> {
             if(dbManager.doesExist(nameField.getText())){
-                System.out.println("This name already exists");
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Overwrite existing save");
+                alert.setContentText("Would you like to overwrite the already existing state?");
+                ButtonType btnType = alert.showAndWait().orElse(ButtonType.CANCEL);
+                if (btnType == ButtonType.CANCEL) newStage.close();
+                else{
+                    System.out.println(map.getPlayer().toString());
+                    //TODO: dbManager.updatePlayer(map.getPlayer());
+                    newStage.close();
+                }
             } else{
                 map.getPlayer().setName(nameField.getText());
                 dbManager.savePlayer(map.getPlayer());
