@@ -7,23 +7,24 @@ import com.codecool.dungeoncrawl.logic.items.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class Player extends Actor {
     private List<String> inventory = new ArrayList<>();
 
-    private static String info;
+    private  String info;
 
     private String name;
 
-    private static int stuckUntil = 0;
+    private  int stuckUntil = 0;
 
-    private static boolean hasKey = false;
+    private  boolean hasKey = false;
 
-    private static boolean hasSword = false;
+    private  boolean hasSword = false;
 
-    private static boolean hasArmor = false;
+    private  boolean hasArmor = false;
 
-    private static boolean hasCrown = false;
+    private  boolean hasCrown = false;
     Cell cell = getCell();
 
     public Player(Cell cell) {
@@ -31,9 +32,10 @@ public class Player extends Actor {
         this.info = "";
     }
 
-    public Player(Cell cell, int hp) {
+    public Player(Cell cell, int hp, List<String> inventory) {
         super(cell, hp, 5, 0);
         this.info = "";
+        setInventory(inventory);
     }
 
     public String getInfo() {
@@ -48,18 +50,19 @@ public class Player extends Actor {
         this.inventory = inventory;
         for(String inventoryItem: inventory){
             System.out.println(inventoryItem);
-            if(inventoryItem == "sword"){
+            if(Objects.equals(inventoryItem, "sword")){
                 hasSword = true;
                 this.increaseDamage(2);
             }
-            if (inventoryItem == "key"){
+            if (Objects.equals(inventoryItem, "key")){
                 hasKey = true;
             }
-            if ( inventoryItem == "armor"){
+            if (Objects.equals(inventoryItem, "armor")){
                 hasArmor = true;
                 this.increaseProtection(1);
             }
         }
+
     }
 
     public void setInfo(String info) {

@@ -73,7 +73,7 @@ public class PlayerModel extends BaseModel {
     }
 
     public Player convertToPlayer(PlayerModel playerModel){
-        Player player = new Player(new Cell(new GameMap(26, 20, CellType.FLOOR),playerModel.x, playerModel.y,CellType.FLOOR), playerModel.getHp());
+        Player player = new Player(new Cell(new GameMap(26, 20, CellType.FLOOR),playerModel.x, playerModel.y,CellType.FLOOR), playerModel.getHp(), playerModel.getInventory());
         player.setInventory(playerModel.getInventory());
         return player;
     }

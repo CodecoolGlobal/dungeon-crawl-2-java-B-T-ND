@@ -292,9 +292,7 @@ public class Main extends Application {
             String selected = listView.getSelectionModel().getSelectedItem();
             PlayerModel player = dbManager.getPlayer(selected);
             GameState gameState = dbManager.getGameState(player);
-            System.out.println(map.getPlayer().toString());
             map = MapLoader.loadMap(gameState.getCurrentMap(), player.convertToPlayer(player), gameState.getMap());
-            System.out.println(map.getPlayer().toString());
             newStage.close();
             refresh();
         });
