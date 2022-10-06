@@ -8,20 +8,21 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AppleTest {
-    static Apple apple;
-    @BeforeAll
-    public static void createApple(){
-        apple = new Apple(new Cell(new GameMap(5,5, CellType.FLOOR),0,1,CellType.FLOOR),10);
-    }
+class ArmorTest {
+    static Armor armor;
 
-    @Test
-    void getHealth() {
-        assertEquals(10,apple.getHealth());
+    @BeforeAll
+    public static void createArmor(){
+        armor = new Armor(new Cell(new GameMap(5,5, CellType.FLOOR), 0,1,CellType.FLOOR));
     }
 
     @Test
     void getTileName() {
-        assertEquals("apple", apple.getTileName());
+        assertEquals("armor", armor.getTileName());
+    }
+
+    @Test
+    void getDamageReduction() {
+        assertEquals(1, armor.getDamageReduction());
     }
 }
