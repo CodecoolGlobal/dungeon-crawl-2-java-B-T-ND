@@ -248,8 +248,9 @@ public class Main extends Application {
         cancel.setOnAction((e) -> newStage.close());
         cancel.setCancelButton(true);
         cancel.setDefaultButton(true);
-        Button save = new Button("Save");
-        save.setOnAction((e) -> {
+        Button saveToSqlBtn = new Button("Save");
+        Button saveToFileBtn = new Button("Save to file");
+        saveToSqlBtn.setOnAction((e) -> {
             map.getPlayer().setName(nameField.getText());
             if(dbManager.doesExist(nameField.getText())){
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -268,8 +269,12 @@ public class Main extends Application {
                 newStage.close();
             }
         });
-        comp.getChildren().add(cancel);
-        comp.getChildren().add(save);
+        saveToFileBtn.setOnAction((e) -> {
+
+        });
+
+            comp.getChildren().add(cancel);
+        comp.getChildren().add(saveToSqlBtn);
 
         Scene stageScene = new Scene(comp, 300, 300);
         newStage.setScene(stageScene);
