@@ -6,7 +6,9 @@ import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
+import com.codecool.dungeoncrawl.model.PlayerModel;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -151,10 +153,6 @@ public class Main extends Application {
         }
     }
 
-    private Window createWindowForLoadPopup() {
-        return null;
-    }
-
     private void checkNextLevel() {
         if (map.getPlayer().getCell().getType() == CellType.EXIT) {
             // is player on exit-field
@@ -275,5 +273,31 @@ public class Main extends Application {
         newStage.setScene(stageScene);
         newStage.show();
         return newStage;
+    }
+
+    private Window createWindowForLoadPopup() {
+        Stage newStage = new Stage();
+        VBox comp = new VBox();
+        ListView<String> listView = new ListView<>();
+        List<PlayerModel> players = dbManager.getAllPlayers();
+        for (PlayerModel player : players){
+            listView.getItems().add(player.getPlayerName());
+        }
+
+        Button loadBtn = new Button("LOAD");
+        loadBtn.setOnAction((e) -> {
+            String selected = listView.getSelectionModel().getSelectedItem();
+            System.out.println(selected);
+            newStage.close();
+        });
+        comp.getChildren().add(new Label("SELECT SAVE FILE"));
+        comp.getChildren().add(listView);
+        comp.getChildren().add(loadBtn);
+        Button close =  new Button("CLOSE");
+        close.setOnAction((e) -> newStage.close());
+        comp.getChildren().add(close);
+        newStage.setScene(new Scene(comp,300,200));
+        newStage.show();
+        return  newStage;
     }
 }
