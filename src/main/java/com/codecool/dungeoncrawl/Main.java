@@ -9,6 +9,7 @@ import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.model.GameState;
 import com.codecool.dungeoncrawl.model.PlayerModel;
+import com.codecool.dungeoncrawl.util.Util;
 import com.google.gson.JsonObject;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
@@ -271,10 +272,12 @@ public class Main extends Application {
             }
         });
         saveToFileBtn.setOnAction((e) -> {
+            map.getPlayer().setName(nameField.getText());
             JsonObject gameState = map.getPlayer().serializeToJSON();
             gameState.addProperty("current_map",currentMap);
             gameState.addProperty("map",map.toString());
-            System.out.println(gameState.toString());
+            Util.createSave(map.getPlayer().getName() + ".json", gameState);
+            newStage.close();
         });
 
         comp.getChildren().add(cancel);
