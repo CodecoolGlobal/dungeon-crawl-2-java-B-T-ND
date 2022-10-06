@@ -115,7 +115,7 @@ public class Player extends Actor {
         }
     }
 
-    private boolean canMove(Cell nextCell) {
+    public boolean canMove(Cell nextCell) {
         return ((nextCell.getType() == CellType.FLOOR && nextCell.getActor() == null) || nextCell.getType() == CellType.EXIT) ||
                 (nextCell.getType() == CellType.CLOSEDDOOR && hasKey) ||
                 nextCell.getType() == CellType.OPENDOOR;
