@@ -48,8 +48,20 @@ public class GameStateDaoJdbc implements GameStateDao {
     }
 
     @Override
-    public GameState get(int id) {
-        return null;
+    public GameState get(PlayerModel player) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT current_map,map, player_name FROM game_state WHERE player_name = ?";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setString(1, player.getPlayerName());
+            ResultSet rs = st.executeQuery();
+            if (!rs.next()) {
+                return null;
+            }
+            GameState gameState = new GameState(rs.getInt(1), rs.getString(2), player);
+            return gameState;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

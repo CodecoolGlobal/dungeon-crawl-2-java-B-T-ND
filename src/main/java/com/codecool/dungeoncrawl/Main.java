@@ -6,6 +6,8 @@ import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
+import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.model.GameState;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
@@ -32,10 +34,11 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public class Main extends Application {
     int currentMap = 1;
-    GameMap map = MapLoader.loadMap(currentMap, null);
+    GameMap map = MapLoader.loadMap(currentMap, null, null);
 
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
@@ -138,7 +141,7 @@ public class Main extends Application {
                 refresh();
                 break;
             case R:
-                map = MapLoader.loadMap(currentMap, map.getPlayer());
+                map = MapLoader.loadMap(currentMap, map.getPlayer(), null);
                 refresh();
                 break;
             case S:
@@ -157,17 +160,17 @@ public class Main extends Application {
         if (map.getPlayer().getCell().getType() == CellType.EXIT) {
             // is player on exit-field
             currentMap++;
-            map = MapLoader.loadMap(currentMap, map.getPlayer());
+            map = MapLoader.loadMap(currentMap, map.getPlayer(), null);
         }
         if (map.getPlayer().hasCrown()) {
             // win condition
             currentMap = 3;
-            map = MapLoader.loadMap(currentMap, map.getPlayer());
+            map = MapLoader.loadMap(currentMap, map.getPlayer(), null);
         } else if (map.getPlayer().getHealth() <= 0) {
             // lose condition
             currentMap = 4;
             playSound("misc/lost.wav");
-            map = MapLoader.loadMap(currentMap, map.getPlayer());
+            map = MapLoader.loadMap(currentMap, map.getPlayer(), null);
         }
     }
 
@@ -287,8 +290,13 @@ public class Main extends Application {
         Button loadBtn = new Button("LOAD");
         loadBtn.setOnAction((e) -> {
             String selected = listView.getSelectionModel().getSelectedItem();
-            System.out.println(selected);
+            PlayerModel player = dbManager.getPlayer(selected);
+            GameState gameState = dbManager.getGameState(player);
+            System.out.println(map.getPlayer().toString());
+            map = MapLoader.loadMap(gameState.getCurrentMap(), player.convertToPlayer(player), gameState.getMap());
+            System.out.println(map.getPlayer().toString());
             newStage.close();
+            refresh();
         });
         comp.getChildren().add(new Label("SELECT SAVE FILE"));
         comp.getChildren().add(listView);

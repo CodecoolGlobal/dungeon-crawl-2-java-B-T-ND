@@ -60,14 +60,16 @@ public class PlayerDaoJdbc implements PlayerDao {
     @Override
     public PlayerModel get(String name) {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT player_name FROM player WHERE player_name = ?";
+            String sql = "SELECT player_name,hp, x,y, inventory FROM player WHERE player_name = ?";
             PreparedStatement st = conn.prepareStatement(sql);
             st.setString(1, name);
             ResultSet rs = st.executeQuery();
             if (!rs.next()) {
                 return null;
             }
-            PlayerModel player = new PlayerModel(rs.getString(1), rs.getInt(2), rs.getInt(3), (List<String>) rs.getArray(4));
+            Array a = rs.getArray(5);
+            String[] inventory = (String[]) a.getArray();
+            PlayerModel player = new PlayerModel(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), List.of(inventory));
             return player;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -81,8 +83,8 @@ public class PlayerDaoJdbc implements PlayerDao {
             ResultSet rs = connection.createStatement().executeQuery(sql);
             List<PlayerModel> result = new ArrayList<>();
             while (rs.next()) { // while result set pointer is positioned before or on last row read authors
-                List inventory = Arrays.asList(rs.getArray(5));
-                PlayerModel player = new PlayerModel(rs.getString(2), rs.getInt(3), rs.getInt(4), inventory );
+                List inventory = Arrays.asList(rs.getArray(6));
+                PlayerModel player = new PlayerModel(rs.getString(2), rs.getInt(3),rs.getInt(4), rs.getInt(5), inventory );
                 result.add(player);
             }
             return result;

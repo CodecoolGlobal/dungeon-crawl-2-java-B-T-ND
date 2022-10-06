@@ -48,6 +48,16 @@ public class GameDatabaseManager {
         gameStateDao.update(gameModel);
     }
 
+    public PlayerModel getPlayer(String name){
+        PlayerModel player =  playerDao.get(name);
+        return  player;
+    }
+
+    public GameState getGameState(PlayerModel player){
+        GameState gamestate = gameStateDao.get(player);
+        return gamestate;
+    }
+
 
 
     public boolean doesExist(String name){
@@ -57,7 +67,7 @@ public class GameDatabaseManager {
     private DataSource connect() throws SQLException {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
         String dbName = "dungeoncrawl";
-        String user = "abukfa97";
+        String user = "jakobrebekasara";
         String password = "Smileyskater97#";
 
         dataSource.setDatabaseName(dbName);

@@ -31,12 +31,35 @@ public class Player extends Actor {
         this.info = "";
     }
 
+    public Player(Cell cell, int hp) {
+        super(cell, hp, 5, 0);
+        this.info = "";
+    }
+
     public String getInfo() {
         return info;
     }
 
     public List<String> getInventory() {
         return inventory;
+    }
+
+    public void setInventory(List<String> inventory) {
+        this.inventory = inventory;
+        for(String inventoryItem: inventory){
+            System.out.println(inventoryItem);
+            if(inventoryItem == "sword"){
+                hasSword = true;
+                this.increaseDamage(2);
+            }
+            if (inventoryItem == "key"){
+                hasKey = true;
+            }
+            if ( inventoryItem == "armor"){
+                hasArmor = true;
+                this.increaseProtection(1);
+            }
+        }
     }
 
     public void setInfo(String info) {
@@ -152,5 +175,14 @@ public class Player extends Actor {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "inventory=" + inventory +
+                ", name='" + name + '\'' +
+                ", cell=" + cell +
+                '}';
     }
 }
