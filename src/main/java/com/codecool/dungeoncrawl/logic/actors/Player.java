@@ -49,7 +49,6 @@ public class Player extends Actor {
     public void setInventory(List<String> inventory) {
         this.inventory = inventory;
         for(String inventoryItem: inventory){
-            System.out.println(inventoryItem);
             if(Objects.equals(inventoryItem, "sword")){
                 hasSword = true;
                 this.increaseDamage(2);

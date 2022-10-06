@@ -54,8 +54,6 @@ public class MapLoader {
                             break;
                         case '@':
                             cell.setType(CellType.FLOOR);
-                            System.out.println(cell.getType());
-                            System.out.println(cell.toString());
                             if(oldPlayer==null){
                                 map.setPlayer(new Player(cell));
                             } else{

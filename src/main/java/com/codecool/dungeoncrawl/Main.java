@@ -258,7 +258,6 @@ public class Main extends Application {
                 ButtonType btnType = alert.showAndWait().orElse(ButtonType.CANCEL);
                 if (btnType == ButtonType.CANCEL) newStage.close();
                 else{
-                    System.out.println(map.getPlayer().toString());
                     dbManager.updatePlayer(map.getPlayer());
                     dbManager.updateMap(currentMap,map,map.getPlayer());
                     newStage.close();
