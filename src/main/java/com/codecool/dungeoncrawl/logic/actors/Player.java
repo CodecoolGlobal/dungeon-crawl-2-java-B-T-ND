@@ -3,32 +3,44 @@ package com.codecool.dungeoncrawl.logic.actors;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.items.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import netscape.javascript.JSObject;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class Player extends Actor {
     private List<String> inventory = new ArrayList<>();
 
-    private static String info;
+    private  String info;
 
     private String name;
 
-    private static int stuckUntil = 0;
+    private  int stuckUntil = 0;
 
-    private static boolean hasKey = false;
+    private  boolean hasKey = false;
 
-    private static boolean hasSword = false;
+    private  boolean hasSword = false;
 
-    private static boolean hasArmor = false;
+    private  boolean hasArmor = false;
 
-    private static boolean hasCrown = false;
+    private  boolean hasCrown = false;
     Cell cell = getCell();
 
     public Player(Cell cell) {
         super(cell, 15, 5, 0);
         this.info = "";
+    }
+
+    public Player(Cell cell, int hp, List<String> inventory) {
+        super(cell, hp, 5, 0);
+        this.info = "";
+        setInventory(inventory);
     }
 
     public String getInfo() {
@@ -37,6 +49,24 @@ public class Player extends Actor {
 
     public List<String> getInventory() {
         return inventory;
+    }
+
+    public void setInventory(List<String> inventory) {
+        this.inventory = inventory;
+        for(String inventoryItem: inventory){
+            if(Objects.equals(inventoryItem, "sword")){
+                hasSword = true;
+                this.increaseDamage(2);
+            }
+            if (Objects.equals(inventoryItem, "key")){
+                hasKey = true;
+            }
+            if (Objects.equals(inventoryItem, "armor")){
+                hasArmor = true;
+                this.increaseProtection(1);
+            }
+        }
+
     }
 
     public void setInfo(String info) {
@@ -152,5 +182,25 @@ public class Player extends Actor {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "inventory=" + inventory +
+                ", name='" + name + '\'' +
+                ", cell=" + cell +
+                '}';
+    }
+
+    public JsonObject serializeToJSON(){
+        JsonObject jsonObject = new JsonObject();
+        Gson gson = new Gson();
+        jsonObject.addProperty("name",getName());
+        jsonObject.addProperty("hp",getHealth());
+        jsonObject.addProperty("x",getX());
+        jsonObject.addProperty("y",getY());
+        jsonObject.addProperty("inventory", gson.toJson(inventory));
+        return jsonObject;
     }
 }

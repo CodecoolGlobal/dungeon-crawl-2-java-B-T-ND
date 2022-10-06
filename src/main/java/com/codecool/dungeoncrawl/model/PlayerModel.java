@@ -1,5 +1,8 @@
 package com.codecool.dungeoncrawl.model;
 
+import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.CellType;
+import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 
 import java.util.List;
@@ -12,9 +15,10 @@ public class PlayerModel extends BaseModel {
 
     private List<String> inventory;
 
-    public PlayerModel(String playerName, int x, int y, List<String>inventory) {
+    public PlayerModel(String playerName, int hp, int x, int y, List<String>inventory) {
         this.inventory = inventory;
         this.playerName = playerName;
+        this.hp = hp;
         this.x = x;
         this.y = y;
     }
@@ -66,5 +70,11 @@ public class PlayerModel extends BaseModel {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public static Player convertToPlayer(PlayerModel playerModel){
+        Player player = new Player(new Cell(new GameMap(26, 20, CellType.FLOOR),playerModel.x, playerModel.y,CellType.FLOOR), playerModel.getHp(), playerModel.getInventory());
+        player.setInventory(playerModel.getInventory());
+        return player;
     }
 }

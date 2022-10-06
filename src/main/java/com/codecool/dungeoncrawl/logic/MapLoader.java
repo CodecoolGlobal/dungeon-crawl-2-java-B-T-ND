@@ -3,21 +3,26 @@ package com.codecool.dungeoncrawl.logic;
 import com.codecool.dungeoncrawl.logic.actors.*;
 import com.codecool.dungeoncrawl.logic.items.*;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Scanner;
 
 public class MapLoader {
 
-    public static GameMap loadMap(int level, Player oldPlayer) {
+    public static GameMap loadMap(int level, Player oldPlayer, String mapString) {
         InputStream is;
-        if (level == 1) {
-            is = MapLoader.class.getResourceAsStream("/map.txt");
-        } else if (level == 2) {
-            is = MapLoader.class.getResourceAsStream("/map2_canvasSized.txt");
-        } else if (level == 3) {
-            is = MapLoader.class.getResourceAsStream("/youWinMap.txt");
-        } else {
-            is = MapLoader.class.getResourceAsStream("/youLostMap.txt");
+        if (mapString == null) {
+            if (level == 1) {
+                is = MapLoader.class.getResourceAsStream("/map.txt");
+            } else if (level == 2) {
+                is = MapLoader.class.getResourceAsStream("/map2_canvasSized.txt");
+            } else if (level == 3) {
+                is = MapLoader.class.getResourceAsStream("/youWinMap.txt");
+            } else {
+                is = MapLoader.class.getResourceAsStream("/youLostMap.txt");
+            }
+        } else{
+            is = new ByteArrayInputStream(mapString.getBytes());
         }
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
@@ -49,15 +54,11 @@ public class MapLoader {
                             break;
                         case '@':
                             cell.setType(CellType.FLOOR);
-                            System.out.println(cell.getType());
-                            System.out.println(cell.toString());
                             if(oldPlayer==null){
                                 map.setPlayer(new Player(cell));
                             } else{
                                 oldPlayer.setCell(cell);
                                 map.setPlayer(oldPlayer);
-                                System.out.println(oldPlayer.getCell().toString());
-                                System.out.println(oldPlayer.getCell().getType());
                             }
                             break;
                         case 'w':
