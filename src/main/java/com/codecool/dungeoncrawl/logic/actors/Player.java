@@ -3,6 +3,11 @@ package com.codecool.dungeoncrawl.logic.actors;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.items.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import netscape.javascript.JSObject;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -186,5 +191,16 @@ public class Player extends Actor {
                 ", name='" + name + '\'' +
                 ", cell=" + cell +
                 '}';
+    }
+
+    public JsonObject serializeToJSON(){
+        JsonObject jsonObject = new JsonObject();
+        Gson gson = new Gson();
+        jsonObject.addProperty("name",getName());
+        jsonObject.addProperty("hp",getHealth());
+        jsonObject.addProperty("x",getX());
+        jsonObject.addProperty("y",getY());
+        jsonObject.addProperty("inventory", gson.toJson(inventory));
+        return jsonObject;
     }
 }
