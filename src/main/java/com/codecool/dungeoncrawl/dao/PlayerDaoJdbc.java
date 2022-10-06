@@ -68,8 +68,9 @@ public class PlayerDaoJdbc implements PlayerDao {
                 return null;
             }
             Array a = rs.getArray(5);
-            String[] inventory = (String[]) a.getArray();
-            PlayerModel player = new PlayerModel(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), List.of(inventory));
+            List inventory = List.of((String[]) a.getArray());
+            if (inventory.isEmpty()) inventory = new ArrayList<>();
+            PlayerModel player = new PlayerModel(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), inventory);
             return player;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -84,6 +85,7 @@ public class PlayerDaoJdbc implements PlayerDao {
             List<PlayerModel> result = new ArrayList<>();
             while (rs.next()) { // while result set pointer is positioned before or on last row read authors
                 List inventory = Arrays.asList(rs.getArray(6));
+                if (inventory.isEmpty()) inventory = new ArrayList<>();
                 PlayerModel player = new PlayerModel(rs.getString(2), rs.getInt(3),rs.getInt(4), rs.getInt(5), inventory );
                 result.add(player);
             }
