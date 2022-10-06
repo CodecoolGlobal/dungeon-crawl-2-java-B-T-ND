@@ -5,6 +5,7 @@ import com.codecool.dungeoncrawl.model.PlayerModel;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PlayerDaoJdbc implements PlayerDao {
@@ -75,7 +76,19 @@ public class PlayerDaoJdbc implements PlayerDao {
 
     @Override
     public List<PlayerModel> getAll() {
-        return null;
+        try(Connection connection = dataSource.getConnection()) {
+            String sql = "SELECT * FROM player";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            List<PlayerModel> result = new ArrayList<>();
+            while (rs.next()) { // while result set pointer is positioned before or on last row read authors
+                List inventory = Arrays.asList(rs.getArray(5));
+                PlayerModel player = new PlayerModel(rs.getString(2), rs.getInt(3), rs.getInt(4), inventory );
+                result.add(player);
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

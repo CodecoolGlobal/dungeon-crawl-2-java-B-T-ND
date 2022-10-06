@@ -11,6 +11,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 
 public class GameDatabaseManager {
     private PlayerDao playerDao;
@@ -29,6 +30,10 @@ public class GameDatabaseManager {
     public void updatePlayer( Player player){
         PlayerModel model = new PlayerModel(player);
         playerDao.update(model);
+    }
+
+    public List<PlayerModel> getAllPlayers(){
+        return playerDao.getAll();
     }
 
     public void saveMap(int currentMap, GameMap map, Player player){
