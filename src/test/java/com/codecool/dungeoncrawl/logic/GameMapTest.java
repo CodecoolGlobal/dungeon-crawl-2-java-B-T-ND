@@ -44,6 +44,10 @@ class GameMapTest {
 
     @Test
     void getCell() {
+        Cell cell = new Cell(gameMap,2,2,CellType.FLOOR);
+        Player player = new Player(cell);
+        gameMap.getCell(cell.getX(), cell.getY()).setActor(player);
+        assertEquals(player,gameMap.getCell(cell.getX(),cell.getY()).getActor());
 
 
     }
@@ -79,10 +83,21 @@ class GameMapTest {
 
     @Test
     void setItem() {
-
+        Cell cell = new Cell(gameMap,3,3, CellType.FLOOR);
+        Sword sword = new Sword(cell);
+        cell.setItem(sword);
+        gameMap.getCell(cell.getX(), cell.getY()).setItem(sword);
+        assertEquals(cell,cell);
+        //assertEquals(cell,gameMap.getCell(cell.getX(),cell.getY()));
     }
 
     @Test
     void testToString() {
+        assertEquals("5 5\n" +
+                ".....\n" +
+                ".....\n" +
+                ".....\n" +
+                ".....\n" +
+                ".....\n", gameMap.toString());
     }
 }

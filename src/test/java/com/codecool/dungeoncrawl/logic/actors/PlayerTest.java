@@ -128,4 +128,10 @@ class PlayerTest {
         player.setName("Béla");
         assertEquals("Béla", player.getName());
     }
+
+    @Test
+    void canMove(){
+        boolean actual = player.canMove(cell.getNeighbor(1,0));
+        assertTrue(actual);
+    }
 }
