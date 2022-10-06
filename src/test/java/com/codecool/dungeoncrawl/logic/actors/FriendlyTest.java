@@ -9,11 +9,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FriendlyTest {
-    Friendly friendly = new Friendly();
+    Friendly friendly;
 
     @BeforeAll
     void createFriendly(){
-        Friendly friendly = new Friendly(new Cell(new GameMap(5,5,CellType.FLOOR),0,1,CellType.FLOOR),"cat");
+        friendly = new Friendly(new Cell(new GameMap(5,5,CellType.FLOOR),0,1,CellType.FLOOR),"cat");
 
     }
 
@@ -23,7 +23,13 @@ class FriendlyTest {
     }
 
     @Test
-    void move() {
-        assertEquals();
+    void moveForwardPlayer() {
+        Player player = new Player(new Cell(new GameMap(5,5,CellType.FLOOR),2,3,CellType.FLOOR));
+        int xBefore = friendly.getX();
+        int yBefore = friendly.getY();
+        friendly.move(player.getX(), player.getY());
+        int xAfter = friendly.getX();
+        int yAfter = friendly.getY();
+
     }
 }
