@@ -5,6 +5,7 @@ import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class GameMap {
@@ -20,7 +21,6 @@ public class GameMap {
     private List<Actor> aliveMonsters;
 
 
-
     public GameMap(int width, int height, CellType defaultCellType) {
         this.width = width;
         this.height = height;
@@ -34,18 +34,19 @@ public class GameMap {
     }
 
     public List<Actor> getAliveMonsters() {
-        aliveMonsters= new ArrayList<>();
-        for( Actor monster: monsters){
-            if(monster.getHealth()>0){
+        aliveMonsters = new ArrayList<>();
+        for (Actor monster : monsters) {
+            if (monster.getHealth() > 0) {
                 aliveMonsters.add(monster);
             }
         }
         return aliveMonsters;
     }
 
-    public void addMonster(Actor monster){
+    public void addMonster(Actor monster) {
         monsters.add(monster);
     }
+
     public Cell getCell(int x, int y) {
         return cells[x][y];
     }
@@ -66,5 +67,22 @@ public class GameMap {
         return height;
     }
 
-    public void setItem(Item item){this.item = item;}
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(width).append(" ").append(height).append("\n");
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                Cell currentCell = getCell(x, y);
+                stringBuilder.append(currentCell.getCharacterRepresentation());
+            }
+            stringBuilder.append("\n");
+        }
+        return stringBuilder.toString();
+    }
+
 }

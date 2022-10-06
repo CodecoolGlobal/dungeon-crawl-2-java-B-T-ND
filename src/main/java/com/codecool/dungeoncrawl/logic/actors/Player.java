@@ -13,6 +13,8 @@ public class Player extends Actor {
 
     private static String info;
 
+    private String name;
+
     private static int stuckUntil = 0;
 
     private static boolean hasKey = false;
@@ -142,5 +144,13 @@ public class Player extends Actor {
 
     public boolean hasCrown(){
         return hasCrown;
+    }
+
+    public void setName(String text) {
+        this.name = text;
+    }
+
+    public String getName() {
+        return name;
     }
 }

@@ -38,16 +38,59 @@ public class PlayerDaoJdbc implements PlayerDao {
 
     @Override
     public void update(PlayerModel player) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "UPDATE player SET hp = ?, x = ?, y = ?, inventory = ? WHERE player_name = ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, player.getHp());
+            statement.setInt(2, player.getX());
+            statement.setInt(3, player.getY());
+            String[] getInventoryArray = new String[player.getInventory().size()];
+            getInventoryArray = player.getInventory().toArray(getInventoryArray);
+            Array inventoryArray = conn.createArrayOf("text",getInventoryArray);
+            statement.setArray(4, inventoryArray);
+            statement.setString(5, player.getPlayerName());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
     @Override
-    public PlayerModel get(int id) {
-        return null;
+    public PlayerModel get(String name) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT player_name FROM player WHERE player_name = ?";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setString(1, name);
+            ResultSet rs = st.executeQuery();
+            if (!rs.next()) {
+                return null;
+            }
+            PlayerModel player = new PlayerModel(rs.getString(1), rs.getInt(2), rs.getInt(3), (List<String>) rs.getArray(4));
+            return player;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public List<PlayerModel> getAll() {
         return null;
+    }
+
+
+    public boolean doesExist(String playerName){
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT player_name FROM player WHERE player_name = ?";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setString(1, playerName);
+            ResultSet rs = st.executeQuery();
+            if (!rs.next()) {
+                return false;
+            }
+            return true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
