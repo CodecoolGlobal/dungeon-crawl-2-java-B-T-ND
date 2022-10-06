@@ -1,14 +1,11 @@
 package com.codecool.dungeoncrawl;
 
-import com.codecool.dungeoncrawl.dao.PlayerDao;
-import com.codecool.dungeoncrawl.dao.PlayerDaoJdbc;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
-import com.codecool.dungeoncrawl.logic.actors.Player;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -31,11 +28,8 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
-import javax.swing.*;
-import java.beans.EventHandler;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 public class Main extends Application {
     int currentMap = 1;
@@ -147,9 +141,18 @@ public class Main extends Application {
                 break;
             case S:
                 Popup pop = new Popup();
-                pop.show(createWindowForPopup());
+                pop.show(createWindowForSavePopup());
                 break;
+            case L:
+                Popup popup = new Popup();
+                popup.show(createWindowForLoadPopup());
+                break;
+
         }
+    }
+
+    private Window createWindowForLoadPopup() {
+        return null;
     }
 
     private void checkNextLevel() {
@@ -235,7 +238,7 @@ public class Main extends Application {
         }).start();
     }
 
-    public Window createWindowForPopup(){
+    public Window createWindowForSavePopup(){
         Stage newStage = new Stage();
         VBox comp = new VBox();
         TextField nameField = new TextField("Name");
