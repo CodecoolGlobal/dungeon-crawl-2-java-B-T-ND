@@ -26,6 +26,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -34,6 +35,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -241,7 +243,7 @@ public class Main extends Application {
         }).start();
     }
 
-    public Window createWindowForSavePopup(){
+    public Window createWindowForSavePopup() {
         Stage newStage = new Stage();
         VBox comp = new VBox();
         TextField nameField = new TextField("Name");
@@ -254,18 +256,18 @@ public class Main extends Application {
         Button saveToFileBtn = new Button("Save to file");
         saveToSqlBtn.setOnAction((e) -> {
             map.getPlayer().setName(nameField.getText());
-            if(dbManager.doesExist(nameField.getText())){
+            if (dbManager.doesExist(nameField.getText())) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Overwrite existing save");
                 alert.setContentText("Would you like to overwrite the already existing state?");
                 ButtonType btnType = alert.showAndWait().orElse(ButtonType.CANCEL);
                 if (btnType == ButtonType.CANCEL) newStage.close();
-                else{
+                else {
                     dbManager.updatePlayer(map.getPlayer());
-                    dbManager.updateMap(currentMap,map,map.getPlayer());
+                    dbManager.updateMap(currentMap, map, map.getPlayer());
                     newStage.close();
                 }
-            } else{
+            } else {
                 dbManager.savePlayer(map.getPlayer());
                 dbManager.saveMap(currentMap, map, map.getPlayer());
                 newStage.close();
@@ -274,8 +276,8 @@ public class Main extends Application {
         saveToFileBtn.setOnAction((e) -> {
             map.getPlayer().setName(nameField.getText());
             JsonObject gameState = map.getPlayer().serializeToJSON();
-            gameState.addProperty("current_map",currentMap);
-            gameState.addProperty("map",map.toString());
+            gameState.addProperty("current_map", currentMap);
+            gameState.addProperty("map", map.toString());
             Util.createSave(map.getPlayer().getName() + ".json", gameState);
             newStage.close();
         });
@@ -295,7 +297,7 @@ public class Main extends Application {
         VBox comp = new VBox();
         ListView<String> listView = new ListView<>();
         List<PlayerModel> players = dbManager.getAllPlayers();
-        for (PlayerModel player : players){
+        for (PlayerModel player : players) {
             listView.getItems().add(player.getPlayerName());
         }
 
@@ -308,14 +310,26 @@ public class Main extends Application {
             newStage.close();
             refresh();
         });
-        comp.getChildren().add(new Label("SELECT SAVE FILE"));
+
+        Button loadBtnJson = new Button("LOAD LOCAL SAVE");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open save File");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Json files (.json)", "*.json"));
+        loadBtnJson.setOnAction((e) -> {
+            File file = fileChooser.showOpenDialog(newStage);
+            map = Util.readJsonGameMap(file);
+            newStage.close();
+        });
+        comp.getChildren().add(new Label("Select save file:"));
         comp.getChildren().add(listView);
         comp.getChildren().add(loadBtn);
-        Button close =  new Button("CLOSE");
+        comp.getChildren().add(loadBtnJson);
+        Button close = new Button("CLOSE");
         close.setOnAction((e) -> newStage.close());
         comp.getChildren().add(close);
-        newStage.setScene(new Scene(comp,300,200));
+        newStage.setScene(new Scene(comp, 300, 200));
         newStage.show();
-        return  newStage;
+        return newStage;
     }
 }
