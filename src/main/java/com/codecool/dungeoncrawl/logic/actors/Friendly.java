@@ -21,14 +21,14 @@ public class Friendly extends Actor{
     @Override
     public void move(int playerX, int playerY) {
         Cell nextCell;
-        int randomSound = Util.getRandomHealth(0,101);
-        if (randomSound <= 0){
-            if (type == "cat"){
-                playSound("misc/cat.wav");
-            } else {
-                playSound("misc/dog.wav");
-            }
-        }
+        // int randomSound = Util.getRandomHealth(0,101);
+        // if (randomSound <= 0){
+        //     if (type == "cat"){
+        //         playSound("misc/cat.wav");
+        //     } else {
+        //         playSound("misc/dog.wav");
+        //     }
+        // }
         if(playerX-getCell().getX()<0 && playerX-getCell().getX()>-4 && playerY-getCell().getY()>-4 && playerY-getCell().getY()<4){
             nextCell = getCell().getNeighbor(-1, 0);
             if (nextCell.getType()== CellType.FLOOR && nextCell.getActor()==null){

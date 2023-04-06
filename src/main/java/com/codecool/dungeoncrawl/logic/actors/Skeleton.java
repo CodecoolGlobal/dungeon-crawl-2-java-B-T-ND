@@ -17,7 +17,7 @@ public class Skeleton extends Actor {
     public void move(int dx, int dy) {
         int randomNumber = Util.getRandomHealth(0,101);
         if(randomNumber <= 1){
-            playSound("misc/skeleton.wav");
+            // playSound("misc/skeleton.wav");
         }
         randomDirection = Util.getRandomDirection();
         cell = getCell();

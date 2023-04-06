@@ -31,10 +31,10 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
+// import javax.sound.sampled.AudioInputStream;
+// import javax.sound.sampled.AudioSystem;
+// import javax.sound.sampled.Clip;
+// import javax.sound.sampled.FloatControl;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
@@ -173,7 +173,7 @@ public class Main extends Application {
         } else if (map.getPlayer().getHealth() <= 0) {
             // lose condition
             currentMap = 4;
-            playSound("misc/lost.wav");
+            // playSound("misc/lost.wav");
             map = MapLoader.loadMap(currentMap, map.getPlayer(), null);
         }
     }
@@ -223,25 +223,25 @@ public class Main extends Application {
         System.exit(0);
     }
 
-    public static synchronized void playSound(final String url) {
-        new Thread(new Runnable() {
-            // The wrapper thread is unnecessary, unless it blocks on the
-            // Clip finishing; see comments.
-            public void run() {
-                try {
-                    Clip clip = AudioSystem.getClip();
-                    AudioInputStream inputStream = AudioSystem.getAudioInputStream(
-                            Main.class.getResourceAsStream("/Sound/" + url));
-                    clip.open(inputStream);
-                    FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                    gainControl.setValue(-5.0f);
-                    clip.start();
-                } catch (Exception e) {
-                    System.err.println(e.getMessage());
-                }
-            }
-        }).start();
-    }
+    // public static synchronized void playSound(final String url) {
+    //     new Thread(new Runnable() {
+    //         // The wrapper thread is unnecessary, unless it blocks on the
+    //         // Clip finishing; see comments.
+    //         public void run() {
+    //             try {
+    //                 Clip clip = AudioSystem.getClip();
+    //                 AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+    //                         Main.class.getResourceAsStream("/Sound/" + url));
+    //                 clip.open(inputStream);
+    //                 FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+    //                 gainControl.setValue(-5.0f);
+    //                 clip.start();
+    //             } catch (Exception e) {
+    //                 System.err.println(e.getMessage());
+    //             }
+    //         }
+    //     }).start();
+    // }
 
     public Window createWindowForSavePopup() {
         Stage newStage = new Stage();

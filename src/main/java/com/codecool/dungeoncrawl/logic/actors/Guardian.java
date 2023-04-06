@@ -17,7 +17,7 @@ public class Guardian extends Actor{
     public void move(int dx, int dy) {
         int randomNumber = Util.getRandomHealth(0,101);
         if(randomNumber <= 1){
-            playSound("NPC/giant/giant4.wav");
+            // playSound("NPC/giant/giant4.wav");
         }
     }
 }
