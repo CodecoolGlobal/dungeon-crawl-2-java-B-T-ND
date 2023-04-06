@@ -57,7 +57,7 @@ public class Main extends Application {
     Label armorLabel = new Label();
     private List<Actor> monsters;
 
-    public static void main(String[] args) {
+    public static void start(String[] args) {
         launch(args);
     }
 
@@ -78,7 +78,7 @@ public class Main extends Application {
         ui.add(armorLabel, 1, 2);
         ui.add(new Label("Inventory: "), 0, 3);
         ui.add(inventoryLabel, 0, 4);
-        //ui.add(new Label("Player prompt: "), 0, 3);
+        // ui.add(new Label("Player prompt: "), 0, 3);
         ui.add(infoLabel, 0, 5);
 
         BorderPane borderPane = new BorderPane();
@@ -224,23 +224,24 @@ public class Main extends Application {
     }
 
     // public static synchronized void playSound(final String url) {
-    //     new Thread(new Runnable() {
-    //         // The wrapper thread is unnecessary, unless it blocks on the
-    //         // Clip finishing; see comments.
-    //         public void run() {
-    //             try {
-    //                 Clip clip = AudioSystem.getClip();
-    //                 AudioInputStream inputStream = AudioSystem.getAudioInputStream(
-    //                         Main.class.getResourceAsStream("/Sound/" + url));
-    //                 clip.open(inputStream);
-    //                 FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-    //                 gainControl.setValue(-5.0f);
-    //                 clip.start();
-    //             } catch (Exception e) {
-    //                 System.err.println(e.getMessage());
-    //             }
-    //         }
-    //     }).start();
+    // new Thread(new Runnable() {
+    // // The wrapper thread is unnecessary, unless it blocks on the
+    // // Clip finishing; see comments.
+    // public void run() {
+    // try {
+    // Clip clip = AudioSystem.getClip();
+    // AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+    // Main.class.getResourceAsStream("/Sound/" + url));
+    // clip.open(inputStream);
+    // FloatControl gainControl = (FloatControl)
+    // clip.getControl(FloatControl.Type.MASTER_GAIN);
+    // gainControl.setValue(-5.0f);
+    // clip.start();
+    // } catch (Exception e) {
+    // System.err.println(e.getMessage());
+    // }
+    // }
+    // }).start();
     // }
 
     public Window createWindowForSavePopup() {
@@ -261,7 +262,8 @@ public class Main extends Application {
                 alert.setTitle("Overwrite existing save");
                 alert.setContentText("Would you like to overwrite the already existing state?");
                 ButtonType btnType = alert.showAndWait().orElse(ButtonType.CANCEL);
-                if (btnType == ButtonType.CANCEL) newStage.close();
+                if (btnType == ButtonType.CANCEL)
+                    newStage.close();
                 else {
                     dbManager.updatePlayer(map.getPlayer());
                     dbManager.updateMap(currentMap, map, map.getPlayer());
