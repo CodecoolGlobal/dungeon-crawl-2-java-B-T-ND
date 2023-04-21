@@ -27,7 +27,7 @@ class MapLoaderTest {
                 "  #.k...w.#      #..tt..##\n" +
                 "  #.......#      #.....h# \n" +
                 "  #..b....#      #.*...t# \n" +
-                "  #########       ######  \n", MapLoader.loadMap(1,null));
+                "  #########       ######  \n", MapLoader.loadMap(1,null, null));
     }
 
     @Test
@@ -52,7 +52,7 @@ class MapLoaderTest {
                 "#................i.......#\n" +
                 "#..........c.............#\n" +
                 "#....t.o.tttt........i...#\n" +
-                "##########################\n",MapLoader.loadMap(2,null));
+                "##########################\n",MapLoader.loadMap(2,null, null));
     }
 
 }
